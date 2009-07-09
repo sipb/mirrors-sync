@@ -1,0 +1,20 @@
+#!/bin/sh
+
+. ./OPTIONS.sh
+
+RSYNCSOURCE=rsync://archive.ubuntu.com/ubuntu
+#RSYNCSOURCE=rsync://ubuntu.media.mit.edu/ubuntu
+BASEDIR=${MIRRORDIR}/ubuntu
+
+rsync --recursive --times --links --hard-links \
+      --stats \
+      -P \
+      --exclude "Packages*" --exclude "Sources*" \
+      --exclude "Release*" \
+      ${RSYNCSOURCE} ${BASEDIR} | tee -a ~/rsync.log
+
+rsync --recursive --times --links --hard-links \
+      --stats --delete --delete-after \
+      -P \
+      --exclude "project/trace/${HOSTNAME}" \
+      ${RSYNCSOURCE} ${BASEDIR} | tee -a ~/rsync.log

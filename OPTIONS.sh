@@ -1,0 +1,1 @@
+MIRRORDIR=/ifs/mirror
