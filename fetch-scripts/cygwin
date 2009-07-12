@@ -1,10 +1,9 @@
 #!/bin/sh
 
-. ./OPTIONS.sh
+. ../OPTIONS.sh
 
-#RSYNCSOURCE=rsync://releases.ubuntu.com
-RSYNCSOURCE=rsync://www.kernel.org/all
-BASEDIR=${MIRRORDIR}/kernel
+RSYNCSOURCE=rsync://www.cygwin.com/cygwin-ftp
+BASEDIR=${MIRRORDIR}/cygwin
 
 rsync --recursive --times --links --hard-links \
       --stats \

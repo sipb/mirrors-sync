@@ -1,10 +1,10 @@
 #!/bin/sh
 
-. ./OPTIONS.sh
+. ../OPTIONS.sh
 
-RSYNCSOURCE=rsync://releases.ubuntu.com/releases
-#RSYNCSOURCE=rsync://ubuntu.media.mit.edu/ubuntu-releases
-BASEDIR=${MIRRORDIR}/ubuntu-releases
+RSYNCSOURCE=rsync://archive.ubuntu.com/ubuntu
+#RSYNCSOURCE=rsync://ubuntu.media.mit.edu/ubuntu
+BASEDIR=${MIRRORDIR}/ubuntu
 
 rsync --recursive --times --links --hard-links \
       --stats \

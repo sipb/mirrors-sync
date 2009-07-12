@@ -1,6 +1,6 @@
 #!/bin/sh
 
-. ./OPTIONS.sh
+. ../OPTIONS.sh
 
 RSYNCSOURCE=rsync://rsync.mirrorservice.org/ftp.ibiblio.org/pub/docs/books/gutenberg
 #RSYNCSOURCE=rsync://ftp.iasi.roedu.net/gutenberg

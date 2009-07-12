@@ -1,6 +1,6 @@
 #!/bin/sh
 
-. ./OPTIONS.sh
+. ../OPTIONS.sh
 
 #RSYNCSOURCE=rsync://download.fedora.redhat.com/fedora-enchilada
 RSYNCSOURCE=rsync://mirrors.kernel.org/fedora-enchilada
