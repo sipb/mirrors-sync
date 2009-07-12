@@ -1,7 +1,5 @@
 #!/bin/sh
 
-. ../OPTIONS.sh
-
 #RSYNCSOURCE=rsync://releases.ubuntu.com
 RSYNCSOURCE=rsync://www.kernel.org/all
 BASEDIR=${MIRRORDIR}/kernel
@@ -9,4 +7,4 @@ BASEDIR=${MIRRORDIR}/kernel
 rsync --recursive --times --links --hard-links \
       --stats \
       -P \
-      ${RSYNCSOURCE} ${BASEDIR} | tee -a ~/rsync.log
+      ${RSYNCSOURCE} ${BASEDIR}

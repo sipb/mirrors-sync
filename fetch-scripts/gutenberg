@@ -1,7 +1,5 @@
 #!/bin/sh
 
-. ../OPTIONS.sh
-
 RSYNCSOURCE=rsync://rsync.mirrorservice.org/ftp.ibiblio.org/pub/docs/books/gutenberg
 #RSYNCSOURCE=rsync://ftp.iasi.roedu.net/gutenberg
 BASEDIR=${MIRRORDIR}/gutenberg
@@ -9,4 +7,4 @@ BASEDIR=${MIRRORDIR}/gutenberg
 rsync "$@" --recursive --times --links --hard-links \
       --stats \
       -P \
-      ${RSYNCSOURCE} ${BASEDIR} | tee -a ~/rsync.log
+      ${RSYNCSOURCE} ${BASEDIR}
