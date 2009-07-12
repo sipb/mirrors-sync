@@ -3,8 +3,10 @@
 . ../OPTIONS.sh
 
 #RSYNCSOURCE=rsync://download.fedora.redhat.com/fedora-enchilada
-RSYNCSOURCE=rsync://mirrors.kernel.org/fedora-enchilada
+#RSYNCSOURCE=rsync://mirrors.kernel.org/fedora-enchilada
+RSYNCSOURCE=rsync://fedora-archives.ibiblio.org/fedora-enchilada
 BASEDIR=${MIRRORDIR}/fedora
 
-rsync "$@" -vaH --numeric-ids --delete --delete-after --delay-updates \
-  ${RSYNCSOURCE} ${BASEDIR}
+rsync "$@" -vaH --numeric-ids --delete --delete-after \
+    ${RSYNCSOURCE} ${BASEDIR}
+    # --delay-updates
