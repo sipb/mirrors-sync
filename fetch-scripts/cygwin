@@ -1,11 +1,9 @@
 #!/bin/sh
 
-. ../OPTIONS.sh
-
 RSYNCSOURCE=rsync://www.cygwin.com/cygwin-ftp
 BASEDIR=${MIRRORDIR}/cygwin
 
 rsync --recursive --times --links --hard-links \
       --stats \
       -P \
-      ${RSYNCSOURCE} ${BASEDIR} | tee -a ~/rsync.log
+      ${RSYNCSOURCE} ${BASEDIR}
