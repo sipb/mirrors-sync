@@ -28,7 +28,7 @@ if lockfile -r 900 "$MIRRORDIR/.locks/$scriptname"; then
     date +"Received lock: %c"
     (. fetch-scripts/"$scriptname")
     exitstatus=$?
-    rm "$MIRRORDIR/.locks/$scriptname"
+    rm -f "$MIRRORDIR/.locks/$scriptname"
 fi
 
 date +"Done: %c"
