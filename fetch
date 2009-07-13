@@ -5,6 +5,7 @@ set -e
 . ./OPTIONS.sh
 
 scriptname=$1
+shift
 
 if [ -z "$scriptname" ]; then
     echo "Run with a fetch script as an argument:"
