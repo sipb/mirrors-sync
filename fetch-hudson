@@ -1,0 +1,32 @@
+#!/bin/bash
+
+set -e
+
+. ./OPTIONS.sh
+
+scriptname=$1
+shift
+
+if [ -z "$scriptname" ]; then
+    echo "Run with a fetch script as an argument:"
+    (cd fetch-scripts && ls)
+    exit 1
+fi
+
+if ! [ -e fetch-scripts/"$scriptname" ]; then
+    echo "Unknown fetch script $scriptname"
+    exit 1
+fi
+
+date +"Starting $scriptname: %c"
+
+#NB: -r is number of retries, at 8 second intervals
+if lockfile -r 900 "$MIRRORDIR/.locks/$scriptname"; then
+    date +"Received lock: %c"
+    (. fetch-scripts/"$scriptname")
+    exitstatus=$?
+    rm -f "$MIRRORDIR/.locks/$scriptname"
+fi
+
+date +"Done: %c"
+exit $exitstatus
