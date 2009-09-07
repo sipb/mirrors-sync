@@ -6,5 +6,4 @@ BASEDIR=${MIRRORDIR}/cygwin
 rsync --recursive --times --links --hard-links \
       --stats --delete \
       --exclude ".description" --exclude ".schedule" \
-      -P \
       ${RSYNCSOURCE} ${BASEDIR}
