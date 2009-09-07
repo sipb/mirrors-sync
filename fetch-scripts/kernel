@@ -6,5 +6,5 @@ BASEDIR=${MIRRORDIR}/kernel
 
 rsync --recursive --times --links --hard-links \
       --stats \
-      -P \
+      --verbose \
       ${RSYNCSOURCE} ${BASEDIR}
