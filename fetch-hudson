@@ -26,6 +26,8 @@ if lockfile -r 900 "$MIRRORDIR/.locks/$scriptname"; then
     (. fetch-scripts/"$scriptname")
     exitstatus=$?
     rm -f "$MIRRORDIR/.locks/$scriptname"
+else
+    exit 1
 fi
 
 date +"Done: %c"
