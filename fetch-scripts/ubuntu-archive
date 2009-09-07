@@ -6,13 +6,13 @@ BASEDIR=${MIRRORDIR}/ubuntu
 
 rsync --recursive --times --links --hard-links \
       --stats \
-      -P \
+      --verbose \
       --exclude "Packages*" --exclude "Sources*" \
       --exclude "Release*" \
       ${RSYNCSOURCE} ${BASEDIR}
 
 rsync --recursive --times --links --hard-links \
       --stats --delete --delete-after \
-      -P \
+      --verbose \
       --exclude "project/trace/${HOSTNAME}" \
       ${RSYNCSOURCE} ${BASEDIR}
