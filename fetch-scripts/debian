@@ -9,7 +9,7 @@ set -u
 BASEDIR=${MIRRORDIR}/debian
 RSYNCSOURCE=rsync://ftp.us.debian.org/debian
 
-RSYNC_OPTS="--recursive --links --hard-links --times --sparse --hard-links --block-size=8192 --timeout 3600 -P --perms"
+RSYNC_OPTS="--recursive --links --hard-links --times --sparse --hard-links --block-size=8192 --timeout 3600 --perms"
 #OTHER_OPTS="--verbose --stats --dry-run"
 OTHER_OPTS="--verbose --stats"
 
