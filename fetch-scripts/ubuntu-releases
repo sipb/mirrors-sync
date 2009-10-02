@@ -1,6 +1,6 @@
 #!/bin/sh
 
-RSYNCSOURCE=rsync://releases.ubuntu.com/releases
+RSYNCSOURCE=rsync://rsync.releases.ubuntu.com/releases
 #RSYNCSOURCE=rsync://ubuntu.media.mit.edu/ubuntu-releases
 BASEDIR=${MIRRORDIR}/ubuntu-releases
 
