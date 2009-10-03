@@ -1,0 +1,18 @@
+#!/bin/sh
+
+RSYNCSOURCE=rsync://rsync.cdimage.ubuntu.com/cdimage
+#RSYNCSOURCE=rsync://ubuntu.media.mit.edu/ubuntu-releases
+BASEDIR=${MIRRORDIR}/ubuntu-cdimage
+
+rsync --recursive --times --links --hard-links \
+      --stats \
+      --verbose \
+      --exclude "Packages*" --exclude "Sources*" \
+      --exclude "Release*" \
+      ${RSYNCSOURCE} ${BASEDIR}
+
+rsync --recursive --times --links --hard-links \
+      --stats --delete --delete-after \
+      --verbose \
+      --exclude "project/trace/${HOSTNAME}" \
+      ${RSYNCSOURCE} ${BASEDIR}
