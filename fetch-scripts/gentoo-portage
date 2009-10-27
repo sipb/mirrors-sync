@@ -2,7 +2,7 @@
 # Modified from http://www.gentoo.org/doc/en/rsync.xml#doc_chap3
 
 RSYNCSOURCE=rsync://rsync.us.gentoo.org/gentoo-portage
-BASEDIR=${MIRRORDIR}/gentoo
+BASEDIR=${MIRRORDIR}/gentoo-portage
 
 rsync --recursive --times --links --hard-links \
       --stats \
