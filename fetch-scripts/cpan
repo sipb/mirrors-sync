@@ -1,0 +1,13 @@
+#!/bin/sh
+
+RSYNCSOURCE=rsync://ftp.funet.fi/ftp/pub/languages/perl/CPAN/
+BASEDIR=${MIRRORDIR}/CPAN
+
+rsync --recursive --times --links --hard-links \
+      --stats \
+      --verbose \
+      --perms \
+      -D \
+      --delete \
+      --timeout=300 \
+      ${RSYNCSOURCE} ${BASEDIR}
