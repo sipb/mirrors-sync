@@ -5,14 +5,7 @@ RSYNCSOURCE=rsync://rsync.cdimage.ubuntu.com/cdimage
 BASEDIR=${MIRRORDIR}/ubuntu-cdimage
 
 rsync --recursive --times --links --hard-links \
-      --stats \
-      --verbose \
-      --exclude "Packages*" --exclude "Sources*" \
-      --exclude "Release*" \
-      ${RSYNCSOURCE} ${BASEDIR}
-
-rsync --recursive --times --links --hard-links \
       --stats --delete --delete-after \
       --verbose \
-      --exclude "project/trace/${HOSTNAME}" \
+			--D \
       ${RSYNCSOURCE} ${BASEDIR}
