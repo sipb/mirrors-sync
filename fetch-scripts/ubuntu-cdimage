@@ -7,5 +7,5 @@ BASEDIR=${MIRRORDIR}/ubuntu-cdimage
 rsync --recursive --times --links --hard-links \
       --stats --delete --delete-after \
       --verbose \
-			--D \
+			-D \
       ${RSYNCSOURCE} ${BASEDIR}
