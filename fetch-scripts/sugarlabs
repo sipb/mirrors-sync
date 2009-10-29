@@ -1,0 +1,10 @@
+#!/bin/sh
+#Requested in an email forwarded to mirrors@ by tibbets on 10/22
+
+rsync -avz --exclude=soas/snapshots  
+
+RSYNCSOURCE=rsync://sunjammer.sugarlabs.org/pubmydir 
+BASEDIR=${MIRRORDIR}/sugarlabs
+
+rsync --avz \
+      ${RSYNCSOURCE} ${BASEDIR}
