@@ -10,4 +10,5 @@ rsync --recursive --times --links --hard-links \
       -D \
       --delete \
       --timeout=300 \
+	--size-only -z \
       ${RSYNCSOURCE} ${BASEDIR}
