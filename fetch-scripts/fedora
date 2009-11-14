@@ -1,8 +1,8 @@
 #!/bin/sh
 
 #RSYNCSOURCE=rsync://download.fedora.redhat.com/fedora-enchilada
-#RSYNCSOURCE=rsync://mirrors2.kernel.org/fedora-enchilada
-RSYNCSOURCE=rsync://fedora-archives.ibiblio.org/fedora-enchilada
+RSYNCSOURCE=rsync://mirrors2.kernel.org/fedora-enchilada
+#RSYNCSOURCE=rsync://fedora-archives.ibiblio.org/fedora-enchilada
 #RSYNCSOURCE=rsync://wpi.edu/fedora-enchilada
 BASEDIR=${MIRRORDIR}/fedora
 
