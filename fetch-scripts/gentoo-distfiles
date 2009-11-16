@@ -11,4 +11,5 @@ rsync --recursive --times --links --hard-links \
       -D \
       --delete \
       --timeout=300 \
+      --exclude=releases/.test/THIS-FILE-SHOULD-NOT-BE-PUBLIC.txt \
       ${RSYNCSOURCE} ${BASEDIR}
