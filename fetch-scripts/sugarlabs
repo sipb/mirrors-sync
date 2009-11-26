@@ -4,4 +4,4 @@
 RSYNCSOURCE=rsync://sunjammer.sugarlabs.org/pub
 BASEDIR=${MIRRORDIR}/sugarlabs
 
-rsync -avz --exclude=soas/snapshots ${RSYNCSOURCE} ${BASEDIR}
+rsync -avzl --delete --exclude=soas/snapshots ${RSYNCSOURCE} ${BASEDIR}
