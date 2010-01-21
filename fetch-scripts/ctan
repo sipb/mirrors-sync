@@ -1,0 +1,16 @@
+#!/bin/sh
+# Modified from http://www.ctan.org/becoming_a_ctan_mirror.html
+
+RSYNCSOURCE=rsync://rsync.tug.ctan.org/CTAN
+BASEDIR=${MIRRORDIR}/CTAN
+
+rsync --recursive --times --links --hard-links \
+      --stats \
+      --verbose \
+      --perms \
+      -D \
+      --group \
+      --owner \
+      --delete \
+      --timeout=300 \
+      ${RSYNCSOURCE} ${BASEDIR}
