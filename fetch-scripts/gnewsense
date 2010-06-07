@@ -3,4 +3,5 @@
 RSYNCSOURCE=rsync://us.archive.gnewsense.org/gnewsense
 BASEDIR=${MIRRORDIR}/gnewsense
 
-rsync -avL --delete --delete-before ${RSYNCSOURCE} ${BASEDIR}
+rsync -rlt -vL --delete --stats ${RSYNCSOURCE} ${BASEDIR}
+#rsync -avL --delete --delete-before ${RSYNCSOURCE} ${BASEDIR}
