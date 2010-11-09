@@ -3,5 +3,5 @@
 RSYNCSOURCE=msync.centos.org::CentOS
 BASEDIR=${MIRRORDIR}/centos
 
-rsync -rlptDqzH --delete --delay-updates \
+rsync -rlptDqzHv --delete --delay-updates \
     ${RSYNCSOURCE} ${BASEDIR}
