@@ -1,0 +1,7 @@
+#!/bin/sh
+
+RSYNCSOURCE=msync.centos.org::CentOS
+BASEDIR=${MIRRORDIR}/centos
+
+rsync -rlptDqzH --delete --delay-updates 
+    ${RSYNCSOURCE} ${BASEDIR}
