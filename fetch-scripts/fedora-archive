@@ -1,7 +1,8 @@
 #!/bin/sh
 
-RSYNCSOURCE=rsync://archive.fedoraproject.org/fedora-archive
+#RSYNCSOURCE=rsync://archive.fedoraproject.org/fedora-archive
 #RSYNCSOURCE=rsync://download.wpi.edu:874/fedora-archive
+RSYNCSOURCE=rsync://ftp.heanet.ie/fedora-archive
 BASEDIR=${MIRRORDIR}/fedora-archive
 
 rsync -vaH --numeric-ids --delete --delete-after \
