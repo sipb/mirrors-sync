@@ -1,5 +1,4 @@
 #!/bin/sh
-set -v
 
 RSYNCSOURCE=rsync://ftp12.us.FreeBSD.org/FreeBSD
 BASEDIR=${MIRRORDIR}/FreeBSD
