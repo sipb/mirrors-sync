@@ -1,6 +1,7 @@
 #!/bin/sh
+set -v
 
-RSYNCSOURCE=ftp6.us.FreeBSD.org::FreeBSD/ 
+RSYNCSOURCE=rsync://ftp12.us.FreeBSD.org/FreeBSD
 BASEDIR=${MIRRORDIR}/FreeBSD
 
 rsync --recursive --times --links --hard-links \
