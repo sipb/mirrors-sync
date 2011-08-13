@@ -9,6 +9,7 @@ rsync --recursive --times --links --hard-links \
       --perms \
       -D \
       --delete \
+      --exclude="Attic" \
       --timeout=300 \
 	--size-only -z \
       ${RSYNCSOURCE} ${BASEDIR}
