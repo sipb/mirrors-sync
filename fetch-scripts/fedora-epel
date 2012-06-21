@@ -1,0 +1,8 @@
+#!/bin/sh
+
+RSYNCSOURCE=rsync://download.wpi.edu:874/fedora-epel
+BASEDIR=${MIRRORDIR}/epel
+
+rsync -vaH --numeric-ids --delete --delete-after \
+     --delay-updates \
+    ${RSYNCSOURCE} ${BASEDIR}
