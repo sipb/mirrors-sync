@@ -23,7 +23,7 @@ date +"Starting $scriptname: %c"
 #NB: -r is number of retries, at 8 second intervals
 if lockfile -r 900 "$MIRRORDIR/.locks/$scriptname"; then
     date +"Received lock: %c"
-    (. fetch-scripts/"$scriptname")
+    (. fetch-scripts/"$scriptname") && :
     exitstatus=$?
     rm -f "$MIRRORDIR/.locks/$scriptname"
 else
