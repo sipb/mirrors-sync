@@ -1,0 +1,8 @@
+#!/bin/sh
+
+RSYNCSOURCE=rsync://mirror.sea.tdrevolution.net/mirror
+BASEDIR=${MIRRORDIR}/cyanogenmod
+
+rsync -vaH --numeric-ids --delete --delete-after \
+     --delay-updates \
+    ${RSYNCSOURCE} ${BASEDIR}
