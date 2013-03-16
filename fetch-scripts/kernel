@@ -1,6 +1,6 @@
 #!/bin/sh
 
-RSYNCSOURCE=rsync://www.kernel.org/all
+RSYNCSOURCE=rsync://www.kernel.org/pub
 BASEDIR=${MIRRORDIR}/kernel
 
 rsync --recursive --times --links --hard-links \
