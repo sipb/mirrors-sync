@@ -1,0 +1,12 @@
+#!/bin/sh
+
+set -x
+
+RSYNCSOURCE=rsync://mirrors.kernel.org/debian-cd/
+BASEDIR=${MIRRORDIR}/debian-cd
+
+rsync -vaH --numeric-ids --delete --delete-after \
+     --delay-updates \
+     --times --links --hard-links --partial --block-size=8192 \
+    --exclude='*.iso'
+    ${RSYNCSOURCE} ${BASEDIR}
