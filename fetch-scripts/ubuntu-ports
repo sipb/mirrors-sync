@@ -1,0 +1,17 @@
+#!/bin/sh
+
+RSYNCSOURCE=rsync://rsync.ports.ubuntu.com/ubuntu-ports
+BASEDIR=${MIRRORDIR}/ubuntu-ports
+
+rsync --recursive --times --links --hard-links \
+      --stats \
+      --verbose \
+      --exclude "Packages*" --exclude "Sources*" \
+      --exclude "Release*" \
+      ${RSYNCSOURCE} ${BASEDIR}
+
+rsync --recursive --times --links --hard-links \
+      --stats --delete --delete-after \
+      --verbose \
+      --exclude "project/trace/${HOSTNAME}" \
+      ${RSYNCSOURCE} ${BASEDIR}
