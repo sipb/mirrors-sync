@@ -18,6 +18,9 @@ if ! [ -e fetch-scripts/"$scriptname" ]; then
     exit 1
 fi
 
+echo "Logging the rsync version used"
+rsync --version
+
 date +"Starting $scriptname: %c"
 
 #NB: -r is number of retries, at 8 second intervals
