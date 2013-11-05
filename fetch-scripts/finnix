@@ -1,0 +1,18 @@
+#!/bin/sh
+
+RSYNC_USER=mit-sipb
+RSYNC_PASSWORD=$(</home/mirrors/private/finnix.password)
+
+RSYNCSOURCE=rsync://${RSYNC_USER}@rsync-master.finnix.org/finnix-releases-master/
+BASEDIR=${MIRRORDIR}/finnix/releases
+HOST=mirrors.mit.edu
+
+export RSYNC_PASSWORD
+rsync --recursive --times --links --hard-links \
+      --stats \
+      --verbose --timeout=600 \
+      --exclude="project/trace/${HOST}" \
+      ${RSYNCSOURCE} ${BASEDIR}
+
+mkdir -pv "${BASEDIR}/project/trace"
+TZ=UTC date > "${BASEDIR}/project/trace/${HOST}"
