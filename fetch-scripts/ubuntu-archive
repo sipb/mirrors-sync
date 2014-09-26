@@ -4,6 +4,11 @@ RSYNCSOURCE=rsync://archive.ubuntu.com/ubuntu
 #RSYNCSOURCE=rsync://ubuntu.media.mit.edu/ubuntu
 BASEDIR=${MIRRORDIR}/ubuntu
 
+set -x
+set -v
+set -e
+set -u
+
 rsync --recursive --times --links --hard-links \
       --stats \
       --verbose --timeout=600 \
