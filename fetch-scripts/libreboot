@@ -1,0 +1,10 @@
+#!/bin/sh
+
+RSYNCSOURCE=rsync.libreboot.org::mirrormirror
+BASEDIR=${MIRRORDIR}/libreboot
+
+rsync --recursive --times --links --hard-links --perms --one-file-system \
+      --delete \
+      --stats \
+      --verbose \
+      ${RSYNCSOURCE} ${BASEDIR}
