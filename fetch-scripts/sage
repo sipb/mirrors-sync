@@ -3,5 +3,5 @@
 RSYNCSOURCE=rsync.sagemath.org::sage
 BASEDIR=${MIRRORDIR}/sage
 
-rsync --archive --delete-after \
+rsync --archive --delete-after --verbose \
       ${RSYNCSOURCE} ${BASEDIR}
