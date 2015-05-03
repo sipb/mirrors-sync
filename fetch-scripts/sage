@@ -1,0 +1,7 @@
+#!/bin/sh
+
+RSYNCSOURCE=rsync.sagemath.org::sage
+BASEDIR=${MIRRORDIR}/sage
+
+rsync --archive --delete-after \
+      ${RSYNCSOURCE} ${BASEDIR}
