@@ -1,0 +1,10 @@
+#!/bin/sh
+
+RSYNCSOURCE=rsync.NetBSD.org::NetBSD
+BASEDIR=${MIRRORDIR}/pub/NetBSD
+
+rsync --whole-file --archive --compress \
+      --delete \
+      --stats \
+      --verbose \
+      ${RSYNCSOURCE} ${BASEDIR}
