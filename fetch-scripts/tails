@@ -5,5 +5,5 @@ BASEDIR=${MIRRORDIR}/tails
 
 rsync --recursive --times --links \
       --delete --delete-after \
-      --stats --verbose
+      --stats --verbose \
       ${RSYNCSOURCE} ${BASEDIR}
