@@ -1,0 +1,9 @@
+#!/bin/sh
+
+RSYNCSOURCE=rsync.torproject.org::amnesia-archive
+BASEDIR=${MIRRORDIR}/tails
+
+rsync --recursive --times --links \
+      --delete --delete-after \
+      --stats --verbose
+      ${RSYNCSOURCE} ${BASEDIR}
