@@ -1,0 +1,25 @@
+#!/bin/sh
+
+# Consult the official Tor Project mirroring manual at
+# https://www.torproject.org/docs/running-a-mirror.html.en
+
+set -x
+set -v
+set -e
+set -u
+
+RSYNCSOURCE=rsync://rsync.torproject.org
+RSYNCWEBSOURCE=${RSYNCSOURCE}/website-mirror/
+RSYNCDISTSOURCE=${RSYNCSOURCE}/dist-mirror/
+BASEWEBDIR=${MIRRORDIR}/torproject
+BASEDISTDIR=${BASEWEBDIR}/dist
+
+RSYNC_OPTS="--archive --delete"
+OTHER_OPTS="--stats --verbose"
+
+rsync ${RSYNC_OPTS} ${OTHER_OPTS} \
+      --exclude dist \
+      ${RSYNCWEBSOURCE} ${BASEWEBDIR}
+
+rsync ${RSYNC_OPTS} ${OTHER_OPTS} \
+      ${RSYNCDISTSOURCE} ${BASEDISTDIR}
