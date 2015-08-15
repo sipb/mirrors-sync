@@ -11,7 +11,7 @@ set -u
 RSYNCSOURCE=rsync://rsync.gtlib.gatech.edu/xbmc/
 BASEDIR=${MIRRORDIR}/kodi
 
-rsync --archive --hardlinks \
+rsync --archive --hard-links \
       --delete --delete-after \
       --stats --verbose \
       ${RSYNCSOURCE} ${BASEDIR}
