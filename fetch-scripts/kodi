@@ -1,0 +1,17 @@
+#!/bin/sh
+
+set -x
+set -v
+set -e
+set -u
+
+# See http://kodi.wiki/view/Mirrors for instructions.
+# All U.S. mirrors should use the Georgia Tech mirror,
+# which excludes plugins with possibly infringing files.
+RSYNCSOURCE=rsync://rsync.gtlib.gatech.edu/xbmc/
+BASEDIR=${MIRRORDIR}/kodi
+
+rsync --archive --hardlinks \
+      --delete --delete-after \
+      --stats --verbose \
+      ${RSYNCSOURCE} ${BASEDIR}
