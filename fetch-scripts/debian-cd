@@ -8,6 +8,5 @@ BASEDIR=${MIRRORDIR}/debian-cd
 rsync -vaH --numeric-ids --delete --delete-after \
      --delay-updates \
      --times --links --hard-links --partial --block-size=8192 \
-    --include='*businesscard*.iso' --include='*netinst*.iso' \
     --exclude='*.iso' \
     ${RSYNCSOURCE} ${BASEDIR}
