@@ -1,6 +1,7 @@
 #!/bin/sh
 
-RSYNCSOURCE=rsync://download.wpi.edu:874/fedora-epel
+#RSYNCSOURCE=rsync://download.wpi.edu:874/fedora-epel
+RSYNCSOURCE=rsync://mirrors2.kernel.org/fedora-epel
 #RSYNCSOURCE=rsync://download-i2.fedoraproject.org/fedora-epel0
 BASEDIR=${MIRRORDIR}/epel
 
