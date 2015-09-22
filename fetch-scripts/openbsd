@@ -6,5 +6,6 @@ BASEDIR=${MIRRORDIR}/pub/OpenBSD
 mkdir -p ${BASEDIR}
 rsync --archive --delete --stats --verbose \
        --exclude='/timestamp' \
+       --exclude='.~tmp~' \
        ${RSYNCSOURCE} ${BASEDIR}
 date +%s > ${BASEDIR}/timestamp
