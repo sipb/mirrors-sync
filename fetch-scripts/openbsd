@@ -1,11 +1,9 @@
 #!/bin/sh
 
-RSYNCSOURCE=rsync://mirrors.nycbug.org/OpenBSD
+RSYNCSOURCE=rsync://openbsd.cs.toronto.edu/openbsd
 BASEDIR=${MIRRORDIR}/pub/OpenBSD
 
 mkdir -p ${BASEDIR}
 rsync --archive --delete --stats --verbose \
-       --exclude='/timestamp' \
        --exclude='.~tmp~' \
        ${RSYNCSOURCE} ${BASEDIR}
-date +%s > ${BASEDIR}/timestamp
