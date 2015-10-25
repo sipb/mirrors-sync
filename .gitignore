@@ -1,0 +1,4 @@
+# Backup files, swap files, etc.
+*~
+*.un~
+*.swp
