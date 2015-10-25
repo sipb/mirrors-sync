@@ -23,15 +23,14 @@ rsync --version
 
 date +"Starting $scriptname: %c"
 
-#NB: -r is number of retries, at 8 second intervals
-if lockfile -r 900 "$MIRRORDIR/.locks/$scriptname"; then
+# Use flock(1) in exclusive mode, waiting up to 5 minutes.
+(
+    flock -x -w 300 200 || exit 1
     date +"Received lock: %c"
     (. fetch-scripts/"$scriptname") && :
-    exitstatus=$?
-    rm -f "$MIRRORDIR/.locks/$scriptname"
-else
-    exit 1
-fi
+    exit $?
+) 200>"$MIRRORDIR/.locks/$scriptname"
 
+exitstatus=$?
 date +"Done: %c"
 exit $exitstatus
