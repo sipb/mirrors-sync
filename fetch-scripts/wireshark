@@ -1,0 +1,9 @@
+#!/bin/sh
+
+RSYNCSOURCE=rsync://rsync.wireshark.org
+BASEDIR=${MIRRORDIR}/wireshark
+
+mkdir -p ${BASEDIR}/download
+rsync -rtlvz --delete --stats --exclude=download \
+          ${RSYNCSOURCE}/wsweb ${BASEDIR}
+rsync -rtlvz --delete --stats ${RSYNCSOURCE}/wsdl ${BASEDIR}/download
