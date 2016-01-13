@@ -1,0 +1,6 @@
+#!/bin/sh
+
+RSYNCSOURCE=rsync://archive.parrotsec.org/parrot
+BASEDIR=${MIRRORDIR}/parrot
+
+rsync --archive --compress ${RSYNCSOURCE} ${BASEDIR}
