@@ -3,4 +3,4 @@
 RSYNCSOURCE=rsync://archive.parrotsec.org/parrot
 BASEDIR=${MIRRORDIR}/parrot
 
-rsync --archive --compress ${RSYNCSOURCE} ${BASEDIR}
+rsync --archive --compress --delete --verbose ${RSYNCSOURCE} ${BASEDIR}
