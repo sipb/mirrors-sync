@@ -1,0 +1,15 @@
+#!/bin/sh
+
+RSYNCSOURCE=rsync://rsync.samnazarko.co.uk/cdn/
+BASEDIR=${MIRRORDIR}/osmc
+
+rsync --archive --update --partial --verbose \
+	--exclude Packages* \
+	--exclude Sources* \
+	--exclude Release* \
+	--exclude InRelease \
+	--exclude i18n/* \
+	--exclude ls-lR* \
+	${RSYNCSOURCE} ${BASEDIR}
+
+rsync --archive --update --partial --delete --verbose ${RSYNCSOURCE} ${BASEDIR}
