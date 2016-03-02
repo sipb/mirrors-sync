@@ -5,7 +5,7 @@ BASEDIR="$MIRRORDIR/macports"
 
 RSYNC_MODULES="packages distfiles release trunk"
 
-RSYNC_ARGS="--compress --delete-delay --hard-links --links --no-motd --perms --recursive --stats --timeout=600 --times"
+RSYNC_ARGS="--compress --delete-delay --hard-links --links --no-motd --perms --recursive --stats --verbose --timeout=600 --times"
 
 for RSYNC_MODULE in $RSYNC_MODULES; do
     RSYNC_URL="${RSYNCSOURCE}/${RSYNC_MODULE}"
