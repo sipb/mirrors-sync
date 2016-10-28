@@ -7,9 +7,7 @@ set -u
 
 #MIRRORDIR=/ifs/mirror
 BASEDIR=${MIRRORDIR}/raspbian
-#RSYNCSOURCE=rsync://archive.raspbian.org/archive
-# Temporarily sync from somewhere closer to get data faster
-RSYNCSOURCE=rsync://lug.mtu.edu/raspbian
+RSYNCSOURCE=rsync://archive.raspbian.org/archive
 
 RSYNC_OPTS="--recursive --links --hard-links --times --sparse --hard-links --block-size=8192 --timeout 3600 --perms"
 #OTHER_OPTS="--verbose --stats --dry-run"
