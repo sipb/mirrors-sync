@@ -1,6 +1,6 @@
 #!/bin/sh
 
-RSYNCSOURCE=rsync://mirrors.rit.edu/archlinux/
+RSYNCSOURCE=rsync://mirrors.kernel.org/archlinux/
 BASEDIR=${MIRRORDIR}/archlinux
 
 rsync -rtlvH --delete-after --delay-updates --safe-links --max-delete=1000 \
