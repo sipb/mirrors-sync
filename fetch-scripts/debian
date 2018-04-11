@@ -9,7 +9,7 @@ set -u
 BASEDIR=${MIRRORDIR}/debian
 RSYNCSOURCE=rsync://debian.gtisc.gatech.edu/debian
 
-RSYNC_OPTS="--recursive --safe-links --times --sparse --block-size=8192 --timeout 3600 --perms"
+RSYNC_OPTS="--recursive --safe-links --times --sparse --timeout 3600 --perms"
 #OTHER_OPTS="--verbose --stats --dry-run"
 OTHER_OPTS="--verbose --stats"
 
