@@ -1,6 +1,6 @@
 #!/bin/sh
 
-RSYNCSOURCE=rsync://archive.ubuntu.com/ubuntu
+RSYNCSOURCE=rsync://us.archive.ubuntu.com/ubuntu
 #RSYNCSOURCE=rsync://ubuntu.media.mit.edu/ubuntu
 BASEDIR=${MIRRORDIR}/ubuntu
 
