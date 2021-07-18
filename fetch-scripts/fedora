@@ -3,7 +3,8 @@
 #RSYNCSOURCE=rsync://download.fedora.redhat.com/fedora-enchilada
 #RSYNCSOURCE=rsync://mirrors2.kernel.org/fedora-enchilada
 #RSYNCSOURCE=rsync://fedora-archives.ibiblio.org/fedora-enchilada
-RSYNCSOURCE=rsync://download.wpi.edu:874/fedora-enchilada
+#RSYNCSOURCE=rsync://download.wpi.edu:874/fedora-enchilada
+RSYNCSOURCE=rsync://mirrors.rit.edu/fedora-enchilada
 #RSYNCSOURCE=rsync://download-i2.fedoraproject.org/fedora-enchilada0
 BASEDIR=${MIRRORDIR}/fedora
 
