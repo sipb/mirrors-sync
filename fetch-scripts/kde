@@ -1,6 +1,6 @@
 #!/bin/sh
 
-RSYNCSOURCE=master.kde.org::kdeftp
+RSYNCSOURCE=rsync.kde.org::kdeftp
 BASEDIR=${MIRRORDIR}/kde
 
 rsync --recursive --times --links --delete \
