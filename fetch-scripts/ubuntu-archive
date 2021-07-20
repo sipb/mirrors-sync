@@ -23,3 +23,5 @@ rsync --recursive --times --links --hard-links \
       --verbose --timeout=600 \
       --exclude "project/trace/${HOSTNAME}" \
       ${RSYNCSOURCE} ${BASEDIR}
+
+date -u > "${BASEDIR}/project/trace/mirrors.mit.edu"
