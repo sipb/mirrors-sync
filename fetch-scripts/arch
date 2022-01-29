@@ -3,5 +3,5 @@
 RSYNCSOURCE=rsync://mirrors.kernel.org/archlinux/
 BASEDIR=${MIRRORDIR}/archlinux
 
-rsync -rtlvH --delete-after --delay-updates --safe-links --max-delete=1000 \
+rsync -rtlvH --delete-after --delay-updates --safe-links \
     ${RSYNCSOURCE} ${BASEDIR}
