@@ -4,8 +4,9 @@
 #RSYNCSOURCE=rsync://mirrors2.kernel.org/fedora-enchilada
 #RSYNCSOURCE=rsync://fedora-archives.ibiblio.org/fedora-enchilada
 #RSYNCSOURCE=rsync://download.wpi.edu:874/fedora-enchilada
-RSYNCSOURCE=rsync://mirrors.rit.edu/fedora-enchilada/fedora/
+#RSYNCSOURCE=rsync://mirrors.rit.edu/fedora-enchilada/fedora/
 #RSYNCSOURCE=rsync://download-i2.fedoraproject.org/fedora-enchilada0
+RSYNCSOURCE=rsync://archive.linux.duke.edu/fedora
 BASEDIR=${MIRRORDIR}/fedora
 
 rsync -vaH --numeric-ids --delete --delete-after \
