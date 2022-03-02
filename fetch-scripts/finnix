@@ -1,13 +1,9 @@
 #!/bin/sh
 
-RSYNC_USER=mit-sipb
-RSYNC_PASSWORD=$(</home/mirrors/private/finnix.password)
-
-RSYNCSOURCE=rsync://${RSYNC_USER}@rsync-master.finnix.org/finnix-releases-master/
+RSYNCSOURCE=rsync://releases.finnix.org/finnix-releases/
 BASEDIR=${MIRRORDIR}/finnix/releases
 HOST=mirrors.mit.edu
 
-export RSYNC_PASSWORD
 rsync --recursive --times --links --hard-links \
       --stats \
       --verbose --timeout=600 \
