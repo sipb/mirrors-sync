@@ -3,7 +3,7 @@
 RSYNCSOURCE=rsync://mirrors.rit.edu
 MODULE="fedora-enchilada"
 MODULEDIR="fedora"
-TIMEFILE="${MIRRORDIR}/.locks/fedora-timefile"
+TIMEFILE="${MIRRORDIR}/.locks/fedora.timefile"
 
 QFM="./tools/fedora/quick-fedora-mirror"
 
@@ -18,7 +18,7 @@ fi
 exittrap() { :; }
 trap 'exittrap' EXIT
 
-TMPDIR=$(mktemp -d /tmp/fedora-XXXXXX) || die "Unable to mktemp"
+TMPDIR=$(mktemp -d /tmp/fedora.XXXXXX) || die "Unable to mktemp"
 exittrap() { rm -rf "${TMPDIR}"; }
 
 CONF="${TMPDIR}/qmf.conf"
@@ -38,7 +38,7 @@ MODULEMAPPING=(${MODULE} ${MODULEDIR})
 VERBOSE=4
 EOF
 
-"${QFM}" --config "${CONF}" --dry-run
+"${QFM}" --config "${CONF}"
 
 rm -rf "${TMPDIR}"
 exittrap() { :; }
