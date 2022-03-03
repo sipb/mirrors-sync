@@ -1,6 +1,6 @@
 #!/bin/bash
 
-RSYNCSOURCE=rsync://mirrors.rit.edu/
+RSYNCSOURCE=rsync://mirrors.rit.edu
 MODULE="fedora-epel"
 MODULEDIR="epel"
 TIMEFILE="${MIRRORDIR}/.locks/fedora-epel-timefile"
