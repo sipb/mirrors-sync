@@ -1,10 +1,18 @@
 #!/bin/bash
 
-RSYNCSOURCE=rsync://mirrors.rit.edu
-MODULE="fedora-enchilada"
-MODULEDIR="fedora"
-TIMEFILE="${MIRRORDIR}/.locks/fedora.timefile"
+# mirrors.mit.edu is on the IP ACL for fedora-buffet0 here
+# so we'll use it. Adjust these values if switching upstreams.
+RSYNCSOURCE=rsync://download-i2.fedoraproject.org
+MASTERMODULE=fedora-buffet0
+PREBITFLIP=1
 
+# The remote module we want to sync from fedora-buffet[0].
+# Some call it fedora, others call it fedora-enchilada.
+MODULE=fedora
+# The local name for it.
+MODULEDIR=fedora
+
+TIMEFILE="${MIRRORDIR}/.locks/fedora.timefile"
 QFM="./tools/fedora/quick-fedora-mirror"
 
 if ! [ -x "${QFM}" ]; then
@@ -28,8 +36,10 @@ cat >"${CONF}" <<EOF
 DESTD=${MIRRORDIR}
 # State regarding last sync, and also a lockfile for qfm
 TIMEFILE=${TIMEFILE}
-# Upstream mirror that contains fedora-buffet
+# Upstream mirror that contains MASTERMODULE
 REMOTE=${RSYNCSOURCE}
+MASTERMODULE=${MASTERMODULE}
+PREBITFLIP=${PREBITFLIP}
 # Which module to sync
 MODULES=(${MODULE})
 # Map from module to location in DESTD
