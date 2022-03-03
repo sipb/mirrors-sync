@@ -1,14 +1,35 @@
 #!/bin/sh
 
-#RSYNCSOURCE=rsync://download.fedora.redhat.com/fedora-enchilada
-#RSYNCSOURCE=rsync://mirrors2.kernel.org/fedora-enchilada
-#RSYNCSOURCE=rsync://fedora-archives.ibiblio.org/fedora-enchilada
-#RSYNCSOURCE=rsync://download.wpi.edu:874/fedora-enchilada
-#RSYNCSOURCE=rsync://mirrors.rit.edu/fedora-enchilada/fedora/
-#RSYNCSOURCE=rsync://download-i2.fedoraproject.org/fedora-enchilada0
-RSYNCSOURCE=rsync://archive.linux.duke.edu/fedora
-BASEDIR=${MIRRORDIR}/fedora
+RSYNCSOURCE=rsync://mirrors.rit.edu/
+MODULE="fedora-enchilada"
+MODULEDIR="fedora"
+TIMEFILE="${MIRRORDIR}/.locks/fedora-timefile"
 
-rsync -vaH --numeric-ids --delete --delete-after \
-     --delay-updates \
-    ${RSYNCSOURCE} ${BASEDIR}
+QFM="./tools/fedora/quick-fedora-mirror"
+CONF="qfm.conf"
+
+if ! [ -x "${QFM}" ]; then
+    # It is expected that this script is sourced by fetch-hudson
+    # and that cwd is the workspace where the root of this repository
+    # is checked out.
+    echo "Could not find quick-fedora-mirror."
+    exit 1
+fi
+
+cat >"${CONF}" <<EOF
+# This will be sourced by qfm, which uses zsh.
+# Where our mirrors live
+DESTD=${MIRRORDIR}
+# State regarding last sync, and also a lockfile for qfm
+TIMEFILE=${TIMEFILE}
+# Upstream mirror that contains fedora-buffet
+REMOTE=${RSYNCSOURCE}
+# Which module to sync
+MODULES=(${MODULE})
+# Map from module to location in DESTD
+MODULEMAPPING=(${MODULE} ${MODULEDIR})
+# One -v to rsync
+VERBOSE=4
+EOF
+
+"${QFM}" --config "${CONF}" --dry-run
