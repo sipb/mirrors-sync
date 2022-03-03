@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 RSYNCSOURCE=rsync://mirrors.rit.edu/
 MODULE="fedora-enchilada"
@@ -6,7 +6,6 @@ MODULEDIR="fedora"
 TIMEFILE="${MIRRORDIR}/.locks/fedora-timefile"
 
 QFM="./tools/fedora/quick-fedora-mirror"
-CONF="qfm.conf"
 
 if ! [ -x "${QFM}" ]; then
     # It is expected that this script is sourced by fetch-hudson
@@ -16,6 +15,13 @@ if ! [ -x "${QFM}" ]; then
     exit 1
 fi
 
+exittrap() { :; }
+trap 'exittrap' EXIT
+
+TMPDIR=$(mktemp -d /tmp/fedora-XXXXXX) || die "Unable to mktemp"
+exittrap() { rm -rf "${TMPDIR}"; }
+
+CONF="${TMPDIR}/qmf.conf"
 cat >"${CONF}" <<EOF
 # This will be sourced by qfm, which uses zsh.
 # Where our mirrors live
@@ -33,3 +39,6 @@ VERBOSE=4
 EOF
 
 "${QFM}" --config "${CONF}" --dry-run
+
+rm -rf "${TMPDIR}"
+exittrap() { :; }
