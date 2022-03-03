@@ -21,7 +21,7 @@ trap 'exittrap' EXIT
 TMPDIR=$(mktemp -d /tmp/fedora-epel.XXXXXX) || die "Unable to mktemp"
 exittrap() { rm -rf "${TMPDIR}"; }
 
-CONF="${TMPDIR}/qmf.conf"
+CONF="${TMPDIR}/qfm.conf"
 cat >"${CONF}" <<EOF
 # This will be sourced by qfm, which uses zsh.
 # Where our mirrors live
