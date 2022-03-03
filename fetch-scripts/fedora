@@ -9,14 +9,8 @@ PREBITFLIP=1
 # The remote module we want to sync from fedora-buffet[0].
 # Some call it fedora, others call it fedora-enchilada.
 MODULE=fedora
-
-# Normally, quick-fedora-mirror is used to mirror multiple modules,
-# and wants DESTD to point at the root. However, we're using it for
-# single modules, and it seems to choke on the symlink farm.
-# Setting DESTD to the module location and forcing telling qfm to
-# put the module in `.`.
-
-DESTD="${MIRRORDIR}/fedora"
+# The local name for it.
+MODULEDIR=fedora
 
 TIMEFILE="${MIRRORDIR}/.locks/fedora.timefile"
 QFM="./tools/fedora/quick-fedora-mirror"
@@ -39,7 +33,7 @@ CONF="${TMPDIR}/qfm.conf"
 cat >"${CONF}" <<EOF
 # This will be sourced by qfm, which uses zsh.
 # Where our mirrors live
-DESTD=${DESTD}
+DESTD=${MIRRORDIR}
 # State regarding last sync, and also a lockfile for qfm
 TIMEFILE=${TIMEFILE}
 # Upstream mirror that contains MASTERMODULE
@@ -48,8 +42,8 @@ MASTERMODULE=${MASTERMODULE}
 PREBITFLIP=${PREBITFLIP}
 # Which module to sync
 MODULES=(${MODULE})
-# Map from module to location; which we're forcing to .
-MODULEMAPPING=(${MODULE} .)
+# Map from module to location in DESTD
+MODULEMAPPING=(${MODULE} ${MODULEDIR})
 # One -v to rsync
 VERBOSE=4
 EOF
