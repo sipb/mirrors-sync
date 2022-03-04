@@ -1,18 +1,19 @@
 #!/bin/bash
 
+# This script serves to sync the following modules from fedora-buffet:
+# - fedora -> ${MIRRORDIR}/fedora
+# - epel   -> ${MIRRORDIR}/epel
+
+# To make quick-fedora-mirror happy, it does so through a bind mount,
+# separate from the symlink farm at ${MIRRORDIR}.
+
 # mirrors.mit.edu is on the IP ACL for fedora-buffet0 here
 # so we'll use it. Adjust these values if switching upstreams.
 RSYNCSOURCE=rsync://download-i2.fedoraproject.org
 MASTERMODULE=fedora-buffet0
 PREBITFLIP=1
 
-# The remote module we want to sync from fedora-buffet[0].
-# Some call it fedora, others call it fedora-enchilada.
-MODULE=fedora
-# The local name for it.
-MODULEDIR=fedora
-
-TIMEFILE="${MIRRORDIR}/.locks/fedora.timefile"
+TIMEFILE="${MIRRORDIR}/.locks/fedora-buffet.timefile"
 QFM="./tools/fedora/quick-fedora-mirror"
 
 if ! [ -x "${QFM}" ]; then
@@ -33,7 +34,7 @@ CONF="${TMPDIR}/qfm.conf"
 cat >"${CONF}" <<EOF
 # This will be sourced by qfm, which uses zsh.
 # Where our mirrors live
-DESTD=${MIRRORDIR}
+DESTD=${MIRRORDIR}/.fedora-buffet
 # State regarding last sync, and also a lockfile for qfm
 TIMEFILE=${TIMEFILE}
 # Upstream mirror that contains MASTERMODULE
@@ -41,11 +42,12 @@ REMOTE=${RSYNCSOURCE}
 MASTERMODULE=${MASTERMODULE}
 PREBITFLIP=${PREBITFLIP}
 # Which module to sync
-MODULES=(${MODULE})
+MODULES=(fedora epel)
 # Map from module to location in DESTD
-MODULEMAPPING=(${MODULE} ${MODULEDIR})
+MODULEMAPPING=(fedora fedora epel epel)
 # One -v to rsync
 VERBOSE=4
+TMPDIR=${TMPDIR}
 EOF
 
 "${QFM}" --config "${CONF}"
