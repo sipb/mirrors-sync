@@ -50,7 +50,7 @@ VERBOSE=4
 TMPDIR=${TMPDIR}
 EOF
 
-"${QFM}" --config "${CONF}"
+"${QFM}" --config "${CONF}" --alwayscheck
 
 rm -rf "${TMPDIR}"
 exittrap() { :; }
