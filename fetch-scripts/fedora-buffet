@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 # This script serves to sync the following modules from fedora-buffet:
 # - fedora -> ${MIRRORDIR}/fedora
 # - epel   -> ${MIRRORDIR}/epel
