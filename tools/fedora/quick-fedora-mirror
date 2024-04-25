@@ -8,8 +8,8 @@
 
 # Variables in upper case are user configurables.
 
-# ZSHISM? Turn on empty globs
-set -G
+# ZSHISM? Turn on empty globs and globbing of dots
+set -G -4
 export LANG=C
 # ZSHISM? newline for IFS.
 IFS=$'\n'
@@ -58,18 +58,19 @@ logit () {
     [[ $item == 'E' ]] && err='ERR:'
     [[ $item == 'e' ]] && err='Err:'
 
+    echo "$item  $err $@" >> $sessionlog
+
     if [[ $LOGITEMS =~ $item || $LOGITEMS =~ '@' ]]; then
-       logwrite $err $*
-   fi
-   if (( VERBOSE >= 3 )); then
-       db3 Log: $err $*
-   fi
+        logwrite $err $*
+    fi
+    if (( VERBOSE >= 3 )); then
+        db3 Log: $err $*
+    fi
 
-   # XXX Consider sending errors to stdout
-   #if [[ -n $err ]]; then
-   #    (>&2 echo $*)
-   #fi
-
+    # XXX Consider sending errors to stdout
+    #if [[ -n $err ]]; then
+    #    (>&2 echo $*)
+    #fi
 }
 
 retcheck () {
@@ -132,19 +133,33 @@ append_state () {
 
 }
 
+cat_or_email () {
+    # Output the contents of a file, either to stdout or in an email
+    local file=$1
+
+    if [[ ( ! -t 0 ) && ( -n "$EMAILDEST" ) ]]; then
+        mail -E -s "$EMAILSUBJECT" "$EMAILDEST" < $file
+    else
+        cat $file
+    fi
+}
+
 finish () {
-    # Finish up.
+    # Finish up, either dumping output to stdout or, if email is configured and
+    # not running interactively, send email.
     #
     # Takes two optional arguments.  The first is the return value; the script
     # will exit with that value and will dump the output file to stdout if the
-    # value is nonzero.  If the second is nonempty, the output will be dumped
-    # regardless of the return value.
+    # value is nonzero.  If the second is nonempty, the output will be
+    # dumped/mailed regardless of the return value.
     local ret=$1
     local out=$2
     db1 "========================="
     db1 "Mirror finished: $(date) ($ret)"
     logit R "Run end; exiting $ret."
-    [[ $ret -gt 0 || -n $out ]] && cat $outfile
+    if [[ $ret -gt 0 || -n $out ]]; then
+        cat_or_email $outfile
+    fi
     exit $ret
 }
 
@@ -334,6 +349,7 @@ do_rsync () {
         # easy in zsh with multios but seems to be terribly difficult under bash.
         db3 Calling $RSYNC $allopts
         logit c calling $RSYNC $allopts
+        # XXX background, then save $!, write it to the session log and wait on it.
         if (( VERBOSE >= 5 )); then
             $RSYNC $allopts 1>&1 2>&2 >> $log 2>> $errlog
         elif (( VERBOSE >= 2 )); then
@@ -410,6 +426,7 @@ Requires a configuration file; will search for this file in the following
 locations:
 
   The path provided by -c/--config.
+  /etc/quick-fedora-mirror/quick-fedora-mirror.conf
   /etc/quick-fedora-mirror.conf
   ~/.config/quick-fedora-mirror.conf
   quick-fedora-mirror.conf in the same directory as this script.
@@ -515,10 +532,15 @@ parse_args () {
 }
 
 read_config () {
+    # As a convenience, make sure $HOSTNAME is set
+    if [[ -z "$HOSTNAME" ]]; then
+        HOSTNAME=$(hostname)
+    fi
     # Load up the configuration file from any of a number of locations
     local file
     for file in \
         $cfgfile \
+        /etc/quick-fedora-mirror/quick-fedora-mirror.conf \
         /etc/quick-fedora-mirror.conf \
         ~/.config/quick-fedora-mirror.conf \
         $(dirname $0)/quick-fedora-mirror.conf \
@@ -648,6 +670,42 @@ clean_all_transfer_temps () {
     done
 }
 
+clean_single_rsync_temp () {
+    # Move a single rsync temporary file one directory up in the hierarchy
+    #
+    # rsync (at least version 3.2.3) appears to have some sort of bug which
+    # causes it to fail to sync some files.  The working theory is that this
+    # happens for small files which need timestamp changes.  It has been
+    # observed for various .treeinfo (max 1550b), .discinfo (46b max) and a
+    # README.html (479b) file.  When this manifests, a run will never complete
+    # because rsync will fail to transfer the file and move it into the .~tmp~
+    # directory, while q-f-m will move it back where it will tail to transfer
+    # again.
+    #
+    # As a workaround for this, we simply delete "small" files (2kb) instead of
+    # moving them.  Since the number of problem files appears to be small and
+    # small files will transfer quickly, this should have little effect on the
+    # overall transfer.
+    local file=$1
+    local size=$(stat -c '%s' $1)
+
+    db3 "XXXXXX $file $size"
+
+    if [[ -n $RSYNC_PARTIAL_DIR_BUG && "$size" -lt 2048 ]]; then
+        logit A Deleting small previous download $file
+        db3 Deleting small previous download: $file
+        rm -f $file
+    elif [[ ! -f ../$file ]]; then
+        logit A Saving previous download $file
+        db3 Saving previous download: $file
+        mv $file ..
+    elif [[ -n $RSYNC_PARTIAL_DIR_BUG ]]; then
+        logit A Deleting partial download $file
+        db3 Deleting partial download: $file
+        rm -f $file
+    fi
+}
+
 clean_stale_rsync_temps () {
     # Clean up temporaries left over from a previous aborted rsync run.
     local mod=$1
@@ -655,24 +713,31 @@ clean_stale_rsync_temps () {
     db2 Possibly aborted rsync run.  Cleaning up.
     logit a "cleaning up previous aborted run: $(wc -l < staletmpfiles-$mod) file(s)."
 
-    # Move the files in those tmpdirs a level up if a file with the
-    # same name doesn't exist.  We don't update the file lists because
-    # we want rsync to re-check those files and possibly fix up the
-    # permissions.  The dirs will be cleaned up later.
-    # Note that this _may_ leave a few files around which should not be
-    # there.  They will of course be cleaned up at the next run.
+    # Move the files in those tmpdirs a level up if a file with the same name
+    # doesn't exist (and just delete the temp file if it does).  We don't
+    # update the file lists because we want rsync to re-check those files and
+    # possibly fix up the permissions.  The dirs will be cleaned up later.
+    #
+    # Note that this _may_ leave a few files around which should not be there,
+    # and of course the content (and even partial content) will be visible
+    # before it technically should be.  But that's better than nothing getting
+    # done because aborted runs cause an endless buildup of partial transfers.
+    # Extra files, if present, will of course be cleaned up at the next run and
+    # rsync sill handle completing any partial downloads.
+    #
     # XXX We could do better by comparing the stale files against the
-    #   to-be-fransferred list, but it's probably not worth it.
+    # to-be-fransferred list and only move things which are going to be
+    # download in the run, but it's probably not worth it.
     for dir in $(cat staletmpdirs-$mod); do
-        pushd $DESTD/$dir
+        pushd "$DESTD/$dir"
         for file in *; do
-            if [[ ! -f ../$file ]]; then
-                logit A Saving previous download $file
-                db3 Saving previous download: $file
-                mv $file ..
-            fi
+            clean_single_rsync_temp $file
         done
         popd
+        # It may be useful to clean up the temp directory, but in many cases
+        # rsync will just recreate it and in any case it really should now be
+        # empty.
+        # rmdir $DESTD/$dir
     done
 }
 
@@ -1434,6 +1499,7 @@ process_module () {
 parse_args "$@"
 set_default_vars
 read_config
+
 # XXX check_dependencies
 
 # Paranoia; give us a few extra seconds.
@@ -1475,6 +1541,11 @@ fi
 outfile=$tempd/output
 touch $outfile
 
+sessionlog=$tempd/sessionlog
+touch $sessionlog
+
+touch $tempd/started-run
+
 cd $tempd
 
 # At this point we can acquire the lock
@@ -1498,6 +1569,15 @@ fi
 db1 "Mirror starting: $(date)"
 logit r Run start: cfg $cfgfile, tmp $tempd
 
+if [[ -n $MIRRORBUFFET ]]; then
+    # We want to mirror everything, so save the admin from listing the
+    # individual modules.
+    # ZSHISM (get keys from an associative array with (k))
+    MODULES=(${(k)MODULEMAPPING})
+    # BASHEQ MODULES=${!MODULEMAPPING[@]}
+    # bash3 equivalent is terrible
+fi
+
 if (( VERBOSE >= 6 )); then
     echo Times:
     echo LASTTIME=$LASTTIME
@@ -1520,15 +1600,6 @@ fi
 
 (( VERBOSE >= 8 )) && set -x
 
-if [[ -n $MIRRORBUFFET ]]; then
-    # We want to mirror everything, so save the admin from listing the
-    # individual modules.
-    # ZSHISM (get keys from an associative array with (k))
-    MODULES=(${(k)MODULEMAPPING})
-    # BASHEQ MODULES=${!MODULEMAPPING[@]}
-    # bash3 equivalent is terrible
-fi
-
 fetch_file_lists
 
 logit p Processing start
@@ -1545,6 +1616,12 @@ fi
 
 if [[ -n $MIRRORBUFFET ]]; then
     echo DIRECTORY_SIZES.txt >> master-transferlist
+
+    # If there's an rsync temp directory in the top level, delete it to work
+    # around a potential rsync bug.
+    if [[ -n $RSYNC_PARTIAL_DIR_BUG ]]; then
+        rm -rf $DESTD/.~tmp~
+    fi
 fi
 
 # The actual transfer
@@ -1554,6 +1631,8 @@ linecount=$(wc -l < master-transferlist.sorted)
 sep; sep
 db2 Transferring $linecount files.
 # XXX send total count to log as well
+
+touch $tempd/started-transfer
 
 # Now we have a list of everything which has changed recently in every module
 # we want, pass that to rsync (non recursive mode!) and it should transfer just
