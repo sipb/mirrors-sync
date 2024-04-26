@@ -48,8 +48,8 @@ PREBITFLIP=${PREBITFLIP}
 MODULES=(fedora epel)
 # Map from module to location in DESTD
 MODULEMAPPING=(fedora fedora epel epel)
-# One -v to rsync
-VERBOSE=4
+# Add --progress to rsync
+VERBOSE=7
 TMPDIR=${TMPDIR}
 EOF
 
