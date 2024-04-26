@@ -27,6 +27,19 @@ if ! [ -x "${QFM}" ]; then
     exit 1
 fi
 
+# Early ownership checks for bind-mounted target directories.
+exit_early=
+for dir in epel fedora; do
+    check_target="${MIRRORDIR}/fedora-buffet/${dir}"
+    if ! [ -O "${check_target}" ]; then
+        echo "${check_target} ownership is wrong; is the bind mount missing?"
+        exit_early=yes
+    fi
+done
+if [ -n "${exit_early}" ]; then
+    exit 1
+fi
+
 exittrap() { :; }
 trap 'exittrap' EXIT
 
