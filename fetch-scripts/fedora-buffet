@@ -67,6 +67,8 @@ TMPDIR=${TMPDIR}
 EOF
 
 "${QFM}" --config "${CONF}" --alwayscheck
+exitstatus=$?
 
 rm -rf "${TMPDIR}"
 exittrap() { :; }
+exit $exitstatus
