@@ -5,9 +5,11 @@ ENDPOINT=https://s3.cern.ch
 BUCKET=kicad-downloads
 
 rclone \
-  --s3-provider=Other \
-  --s3-endpoint=${ENDPOINT} \
-  --s3-region=us-east-1 \
-  --s3-access-key-id="" \
-  --s3-secret-access-key="" \
-  :s3:${BUCKET} ${BASEDIR}
+    sync \
+    --s3-provider=Other \
+    --s3-endpoint=${ENDPOINT} \
+    --s3-region=us-east-1 \
+    --s3-access-key-id="" \
+    --s3-secret-access-key="" \
+    --log-level=INFO \
+    :s3:${BUCKET} ${BASEDIR}
