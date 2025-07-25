@@ -12,7 +12,7 @@ rclone \
     --s3-access-key-id="" \
     --s3-secret-access-key="" \
     --log-level=INFO \
-    --exclude="/index.html" \
+    --exclude="index.html" \
     --exclude="/list.js" \
-    --exclude="favicon.ico" \
+    --exclude="/favicon.ico" \
     :s3:${BUCKET} ${BASEDIR}
