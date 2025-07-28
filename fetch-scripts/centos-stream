@@ -1,0 +1,7 @@
+#!/bin/sh
+
+RSYNCSOURCE=rsync.stream.centos.org::CentOS-Stream-All
+BASEDIR=${MIRRORDIR}/centos-stream
+
+rsync -rlptDzHv --delete --delay-updates \
+    ${RSYNCSOURCE} ${BASEDIR}
