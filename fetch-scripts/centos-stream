@@ -1,9 +1,9 @@
 #!/bin/sh
 
 # True upstream, requires ACLs
-#RSYNCSOURCE=rsync.stream.centos.org::CentOS-Stream-All
+RSYNCSOURCE=rsync.stream.centos.org::CentOS-Stream-All
 # Temporary source to fill the mirror
-RSYNCSOURCE=rsync://iad.mirror.rackspace.com/centos-stream
+#RSYNCSOURCE=rsync://iad.mirror.rackspace.com/centos-stream
 BASEDIR=${MIRRORDIR}/centos-stream
 
 rsync -rlptDzHv --delete --delay-updates \
