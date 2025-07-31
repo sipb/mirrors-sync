@@ -1,9 +1,9 @@
 #!/bin/sh
 
 # True upstream, may require ACLs
-# RSYNCSOURCE=msync.rockylinux.org::rocky-linux
+RSYNCSOURCE=msync.rockylinux.org::rocky-linux
 # Temporary source to fill the mirror
-RSYNCSOURCE=plug-mirror.rcac.purdue.edu::rocky
+#RSYNCSOURCE=plug-mirror.rcac.purdue.edu::rocky
 BASEDIR=${MIRRORDIR}/rocky
 
 rsync -rlptDzHv --delete --delay-updates \
