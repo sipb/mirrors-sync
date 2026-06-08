@@ -14,13 +14,13 @@ PASS1=(--exclude Packages\* --exclude Sources\* --exclude Release\* --exclude In
 
 rsync --recursive --times --links --hard-links \
       --stats \
-      --verbose --timeout=600 \
+      --verbose --timeout=6000 \
       "${PASS1[@]}" \
       ${RSYNCSOURCE} ${BASEDIR}
 
 rsync --recursive --times --links --hard-links \
       --stats --delete --delete-after \
-      --verbose --timeout=600 \
+      --verbose --timeout=6000 \
       --exclude "project/trace/${HOSTNAME}" \
       ${RSYNCSOURCE} ${BASEDIR}
 
