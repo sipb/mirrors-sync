@@ -23,6 +23,13 @@ rsync --version
 
 date +"Starting $scriptname: %c"
 
+# POSIX shells disagree about the behavior of `set -e` for subshells
+# invoked as a part of a AND-OR list. dash believes `set -e` behaves
+# normally; bash believes it's permanently ignored:
+# https://lists.gnu.org/archive/html/bug-bash/2026-06/msg00037.html So
+# we work around this differing behavior by turning `set -e` off,
+# running the subshell, and then turning it back on afterwards.
+set +e
 # Use flock(1) in exclusive mode, waiting up to 5 minutes.
 (
     flock -x -w 300 200 || exit 1
@@ -32,6 +39,8 @@ date +"Starting $scriptname: %c"
 ) 200>"$MIRRORDIR/.locks/$scriptname"
 
 exitstatus=$?
+set -e
+
 date +"Done: %c"
 if [[ $exitstatus -eq 25 ]]; then
     echo "Error code $exitstatus ignored."
