@@ -7,8 +7,7 @@ set -u
 
 #MIRRORDIR=/ifs/mirror
 BASEDIR=${MIRRORDIR}/debian
-#RSYNCSOURCE=rsync://debian.csail.mit.edu/debian/
-RSYNCSOURCE=rsync://mirror.us.mirhosting.net/debian/
+RSYNCSOURCE=rsync://debian.csail.mit.edu/debian/
 
 RSYNC_OPTS="--recursive --links --safe-links --times --sparse --timeout 3600 --perms"
 #OTHER_OPTS="--verbose --stats --dry-run"
@@ -20,7 +19,7 @@ PASS1=(--include \*.diff --exclude \*.diff/Index --exclude Packages\* --exclude 
 PASS2="--max-delete=40000 --delay-updates --delete --delete-delay --delete-excluded --exclude \"project/trace/${HOSTNAME}\""
 
 # The temp directory used by rsync --delay-updates is not
-# world-readable remotely. Always exclude it to avoid errors.
+# world-readable remotely. Always exclude it to avoid errors. 
 EXCLUDE="--exclude .~tmp~/"
 
 rsync ${RSYNC_OPTS} ${OTHER_OPTS} "${PASS1[@]}" ${EXCLUDE} ${RSYNCSOURCE} ${BASEDIR}
