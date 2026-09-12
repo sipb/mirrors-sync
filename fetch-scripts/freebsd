@@ -1,6 +1,6 @@
 #!/bin/sh
 
-RSYNCSOURCE=rsync://ftp11.FreeBSD.org/FreeBSD
+RSYNCSOURCE=rsync://ftp11.us.FreeBSD.org/FreeBSD
 BASEDIR=${MIRRORDIR}/FreeBSD
 
 rsync --recursive --times --links --hard-links \
@@ -11,5 +11,5 @@ rsync --recursive --times --links --hard-links \
       --delete \
       --exclude="Attic" \
       --timeout=300 \
-	--size-only -z \
+      --size-only -z \
       ${RSYNCSOURCE} ${BASEDIR}
